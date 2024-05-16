@@ -7,10 +7,6 @@ import { Search } from "@mui/icons-material";
 import { useTelegramContext } from "@/hook/use-telegram";
 export default function Geolocation(){
     const {
-        apiLoading,
-        error,
-        loading,
-        sendMessage,
         cekPos,
         setPhone,
         cekPosMessage,
@@ -40,7 +36,6 @@ export default function Geolocation(){
         }
     }
   }
-  console.log('render')
     return (
     <div>
         <div>
@@ -137,9 +132,17 @@ export default function Geolocation(){
                             </TableRow>
                         </TableBody>
                     </Table>
-                    <div dangerouslySetInnerHTML={{
-                        __html: '<div class="mapouter"><div class="gmap_canvas"><iframe width="820" height="560" id="gmap_canvas" src="'+parseCheckpos()?.gmapLink+'&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://online.stopwatch-timer.net/pomodoro-timer">tomato timer</a><br><a href="https://textcaseconvert.com"></a><br><style>.mapouter{position: relative;text-align: right;height: 560px;width: 820px;}</style><a href="https://www.ongooglemaps.com">google maps embed iframe</a><style>.gmap_canvas{overflow: hidden;background: none !important;height: 560px;width: 820px;}</style></div></div>'
-                    }}></div>
+                        <div className="mapouter" style={{
+                            position: 'relative',
+                            textAlign: 'right',height: 560,width: 820,}
+                        }>
+                            <div className="gmap_canvas" style={{
+                                overflow: 'hidden',background: 'none !important',height: 560,width: 820,
+                            }}>
+                                <iframe width="820" height="560" id="gmap_canvas" src={`${parseCheckpos()?.gmapLink}&iwloc=&output=embed`} frameBorder="0" scrolling="no" marginHeight={0} marginWidth={0}></iframe><a href="https://online.stopwatch-timer.net/pomodoro-timer">tomato timer</a>
+                                <br/><a href="https://textcaseconvert.com"></a>
+                                <br/>
+                                <a href="https://www.ongooglemaps.com">google maps embed iframe</a></div></div>
                 </CardContent>
                 </Card>
             </div>

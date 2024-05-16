@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-
+import Sidebar from "@/component/sidebar/sidebar";
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import { Box } from "@mui/material";
+import { TelegramContextProvider } from "@/hook/use-telegram";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -16,7 +19,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className} style={{
+        background: 'white'
+      }}>
+        <AppRouterCacheProvider>
+          <TelegramContextProvider>
+            <Box sx={{ display: 'flex' }}>
+              <Sidebar/>
+              <Box
+              component="main"
+              sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+              >
+                {children}
+              </Box>
+            </Box>
+          </TelegramContextProvider>
+        </AppRouterCacheProvider>
+      </body>
     </html>
   );
 }

@@ -145,8 +145,10 @@ export const useTelegramContext = () => useContext(TelegramContext);
 export function LoadingBar(){
     const {
         loading,
-        error
+        setLoading
     } = useTelegramContext()
-    if(error) return <Snackbar autoHideDuration={5000} message={'Something went wrong'} open={!!error}/>
-    return <Snackbar autoHideDuration={5000} message={'Loading'} open={loading}/>
+    return <div>
+            <Snackbar autoHideDuration={5000} message={'Loading'} content="" open={loading}/>
+            {`loading ${loading}`}
+        </div>
 }

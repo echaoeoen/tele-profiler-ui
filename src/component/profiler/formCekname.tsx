@@ -1,4 +1,4 @@
-import { useTelegram } from "@/hook/use-telegram";
+import { useTelegramContext } from "@/hook/use-telegram";
 import { Search } from "@mui/icons-material";
 import { Card, CardContent, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
 import { useState } from "react";
@@ -7,7 +7,7 @@ export default function FormCekname() {
     const [phone, setPhone] = useState<string>('')
     const {
         sendMessage
-    } = useTelegram()
+    } = useTelegramContext()
     const handleClick = () => {
         sendMessage(`Cekname ${phone}`)
     }

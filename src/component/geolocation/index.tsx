@@ -10,12 +10,6 @@ export default function Geolocation(){
         cekPos,
         setPhone,
         cekPosMessage,
-        chatId,
-        phone,
-        profiling,
-        profilingMessage,
-        setApiLoading,
-        setLoading
     } = useTelegramContext()
   const handleClick = () => {
     cekPos()

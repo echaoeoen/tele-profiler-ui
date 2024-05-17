@@ -1,12 +1,17 @@
 'use client'
-import { Dispatch, SetStateAction, createContext, useCallback, useContext, useEffect, useState } from "react"
+import { createContext, useCallback, useContext, useEffect, useState } from "react"
 import { useRequest } from "./request"
 import {
     useInterval
 } from 'usehooks-ts'
+import { Snackbar, SnackbarContent } from "@mui/material"
 
 const botTitle = process.env.BOT_TITLE || 'kopidarbucks'
-
+export interface Message {
+    id: number;
+    message: string;
+    
+}
 export const useTelegram = () => {
     const {
         client, 
@@ -16,7 +21,8 @@ export const useTelegram = () => {
     const [loading, setLoading] = useState(false);
     const [chatId, setChatId] = useState<number>();
     const [phone, setPhone] = useState<string>();
-    const [lastMessageId, setLastMessageId] = useState<string>();
+    const [lastMessageId, setLastMessageId] = useState<string>()
+    const [messages, setMessages] = useState<Message[]>([])
     const [cekPosMessage, setCekPosMessage] = useState<string>()
     const [profilingMessage, setProfilingMessage] = useState<string>()
     const [error, setError] = useState('')
@@ -24,6 +30,7 @@ export const useTelegram = () => {
     const [delay, setDelay] = useState<number>(3000)
     const sendMessage = async (message: string) => {
         setLoading(true);
+        setMessages([...messages, {id: new Date().getTime(), message}])
         try {
             const response = await client.post('/telegram/send-message', {
                 to: chatId,
@@ -49,35 +56,41 @@ export const useTelegram = () => {
     const getLatestMessage = useCallback(async () => {
         try {
             const response = await client.get(`/telegram/${chatId}?limit=1`)
+            setLoading(false)
+
             if(lastMessageId === response.data.messages[0]?.id) return
+            if(messages.length > 5) {
+                messages.slice(messages.length - 5, messages.length)
+            }
+            setMessages([...messages, {
+                id: response.data.messages[0]?.id,
+                message: response.data.messages[0]?.message
+            }])
             setLastMessageId(response.data.messages[0]?.id)
             if(response.data.messages[0]?.message?.includes('Please wait')) {
-                setError('Silahkan tunggu')
+                setError('Please wait')
                 return
             }
             if(response.data.messages[0]?.message?.includes('Cek')) {
                 return
             }
             if(response.data.messages[0]?.message?.includes('Sorry')) {
-                setError('Data tidak dapat ditemukan')
-                setDelay(0);
+                setError('No data found')
             }
             if(state === 'cek') {
-                console.log(cekPosMessage, response.data.messages[0]?.message)
                 if (response.data.messages[0]?.message === cekPosMessage) return
                 setCekPosMessage(response.data.messages[0]?.message)
-                setDelay(0);
             }
             if(state === 'profiling') {
                 if (response.data.messages[0]?.message === profilingMessage) return
                 setProfilingMessage(response.data.messages[0]?.message)
-                setDelay(0);
             }
         } catch (error: any) {
+            console.log(error)
             setError(error.message)
         }
         setLoading(false)
-    }, [cekPosMessage, chatId, client, profilingMessage, state])
+    }, [client, chatId, lastMessageId, messages, state, cekPosMessage, profilingMessage])
     const getBotId = async () => {
         try {
             const response = await client.get('/telegram')
@@ -96,16 +109,6 @@ export const useTelegram = () => {
     useInterval(() => {
         if(chatId) getLatestMessage();
     }, delay || null)
-    // useEffect(() => {
-    //     if(intervalRef) clearInterval(intervalRef)
-    //     const interval = setInterval(async () => {
-    //         getLatestMessage()
-    //     }, 3000);
-    //     setIntervalRef(interval)
-    //     return () => {
-    //         clearInterval(interval)
-    //     }
-    // }, [chatId])
     return {
         loading,
         error,
@@ -119,7 +122,8 @@ export const useTelegram = () => {
         cekPos,
         profiling,
         setPhone,
-        phone
+        phone,
+        messages,
     }
 }
 
@@ -138,3 +142,11 @@ export const TelegramContextProvider = ({
 }
 export const useTelegramContext = () => useContext(TelegramContext);
 
+export function LoadingBar(){
+    const {
+        loading,
+        error
+    } = useTelegramContext()
+    if(error) return <Snackbar autoHideDuration={5000} message={'Something went wrong'} open={!!error}/>
+    return <Snackbar autoHideDuration={5000} message={'Loading'} open={loading}/>
+}

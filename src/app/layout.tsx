@@ -4,7 +4,7 @@ import "./globals.css";
 import Sidebar from "@/component/sidebar/sidebar";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { Box } from "@mui/material";
-import { TelegramContextProvider } from "@/hook/use-telegram";
+import { LoadingBar, TelegramContextProvider } from "@/hook/use-telegram";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,7 +20,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className} style={{
-        background: 'white'
+        background: 'white',
+        height: '100%'
       }}>
         <AppRouterCacheProvider>
           <TelegramContextProvider>
@@ -28,11 +29,12 @@ export default function RootLayout({
               <Sidebar/>
               <Box
               component="main"
-              sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+              sx={{ flexGrow: 1, bgcolor: 'background.default' }}
               >
                 {children}
               </Box>
             </Box>
+            <LoadingBar/>
           </TelegramContextProvider>
         </AppRouterCacheProvider>
       </body>

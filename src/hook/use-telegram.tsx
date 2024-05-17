@@ -30,7 +30,6 @@ export const useTelegram = () => {
     const [delay, setDelay] = useState<number>(3000)
     const sendMessage = async (message: string) => {
         setLoading(true);
-        setMessages([...messages, {id: new Date().getTime(), message}])
         try {
             const response = await client.post('/telegram/send-message', {
                 to: chatId,
@@ -64,7 +63,7 @@ export const useTelegram = () => {
             }
             setMessages([...messages, {
                 id: response.data.messages[0]?.id,
-                message: response.data.messages[0]?.message
+                message: response.data.messages[0]?.message || ''
             }])
             setLastMessageId(response.data.messages[0]?.id)
             if(response.data.messages[0]?.message?.includes('Please wait')) {

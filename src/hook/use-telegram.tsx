@@ -147,8 +147,5 @@ export function LoadingBar(){
         loading,
         setLoading
     } = useTelegramContext()
-    return <div>
-            <Snackbar autoHideDuration={5000} message={'Loading'} content="" open={loading}/>
-            {`loading ${loading}`}
-        </div>
+    return  <Snackbar autoHideDuration={5000} message={'Loading'} content="" open={loading}/>
 }

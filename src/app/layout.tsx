@@ -21,7 +21,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className} style={{
         background: 'white',
-        height: '100%'
+        height: '100%',
+        color: 'black'
       }}>
         <AppRouterCacheProvider>
           <TelegramContextProvider>

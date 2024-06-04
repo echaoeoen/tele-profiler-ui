@@ -18,6 +18,8 @@ export default function Geolocation(){
     const message = cekPosMessage?.split('||');
     const length = message?.length as number;
     if (message) {
+        let gmapLink = message[length - 1];
+        gmapLink = gmapLink?.replace('http://', 'https://')
         return {
             no: message[0],
             date: message[1],
@@ -26,7 +28,7 @@ export default function Geolocation(){
             lac: message[4],
             period: message[length - 3],
             address: message[length - 2],
-            gmapLink: message[length - 1]
+            gmapLink
         }
     }
   }

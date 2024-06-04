@@ -14,6 +14,9 @@ const getMessage = (message: string) => {
     const cekPosMessage =message.split(' || ')
     if(cekPosMessage.length > 1) {
         const length =cekPosMessage.length
+        let gmapLink = message[length - 1];
+        gmapLink = gmapLink?.replace('http://', 'https://')
+
     const r =   {
             no: cekPosMessage[0],
             date: cekPosMessage[1],
@@ -22,7 +25,7 @@ const getMessage = (message: string) => {
             lac: cekPosMessage[4],
             period: cekPosMessage[length - 3],
             address: cekPosMessage[length - 2],
-            gmapLink: cekPosMessage[length - 1]
+            gmapLink
         }
     return <Card style={{width: 'auto'}}>
         <CardContent>

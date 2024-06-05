@@ -9,6 +9,7 @@ import FormHpNik from "./formHpNik";
 import FormNikHp from "./formNikHp";
 import { useEffect, useRef } from "react";
 import FormCekpos from "./formCekPos";
+import FormCeknik from "./formCeknik";
 
 const getMessage = (message: string) => {
     const cekPosMessage =message.split(' || ')
@@ -95,7 +96,7 @@ export default function ChatContainer() {
     }, [messages])
     const { height } = useWindow()
     return <>
-    <div className="flex">
+    <div className="flex" style={{ minWidth: 500 }}>
         <div className="w-100" style={{padding: 10}}>
             <b>Commands</b>
             <FormCekpos/><br/>
@@ -104,9 +105,11 @@ export default function ChatContainer() {
             <FormCekNopol/><br/>
             <FormHpNik/><br/>
             <FormNikHp/><br/>
+            <FormCeknik/><br/>
         </div>
     <div style={{
         height: height,
+        minWidth: 300,
         overflow: 'auto',
         flex:1,
         background: '#f1f1f1'

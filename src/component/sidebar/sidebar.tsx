@@ -24,7 +24,7 @@ const menus = [{
 export default function Sidebar() {
     return (
     <div>
-      <img src="/logo.png" alt="logo" className="h-24 w-24" />
+      <img src="/logo.png" alt="logo" style={{width: 200}}/>
       <Divider />
       <List>
         {menus.map(({

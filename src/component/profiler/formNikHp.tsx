@@ -9,7 +9,7 @@ export default function FormNikHp() {
         sendMessage
     } = useTelegramContext()
     const handleClick = () => {
-        sendMessage(`hpnik ${nik}`)
+        sendMessage(`nikhp ${nik}`)
     }
     return (
         <div>

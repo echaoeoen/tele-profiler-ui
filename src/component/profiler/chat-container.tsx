@@ -15,7 +15,7 @@ const getMessage = (message: string) => {
     const cekPosMessage =message.split(' || ')
     if(cekPosMessage.length > 1) {
         const length =cekPosMessage.length
-        let gmapLink = message[length - 1];
+        let gmapLink = cekPosMessage[length - 1];
         gmapLink = gmapLink?.replace('http://', 'https://')
 
     const r =   {

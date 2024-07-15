@@ -10,13 +10,13 @@ import ListItemText from '@mui/material/ListItemText';
 import Map from '@mui/icons-material/Map';
 import AccountBox from '@mui/icons-material/AccountBox';
 import { CssBaseline, Link } from '@mui/material';
-
+import Error from '../error/Error';
 const menus = [{
-    path: '/',
+    path: '/app',
     title: 'Geo Location',
     icon: <Map/>
 }, {
-    path: '/profiling',
+    path: '/app/profiling',
     title: 'Profiling',
     icon: <AccountBox/>
 }
@@ -24,7 +24,6 @@ const menus = [{
 export default function Sidebar() {
     return (
     <div>
-      <img src="/logo.png" alt="logo" style={{width: 200}}/>
       <Divider />
       <List>
         {menus.map(({
@@ -40,6 +39,7 @@ export default function Sidebar() {
           </ListItem>
         ))}
       </List>
+      <Error/>
       <Divider />
       </div>
     )

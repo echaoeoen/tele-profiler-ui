@@ -31,7 +31,7 @@ export const useTelegram = () => {
     const sendMessage = async (message: string) => {
         setLoading(true);
         try {
-            const response = await client.post('/telegram/send-message', {
+            const response = await client.post('/profiler/commands', {
                 to: chatId,
                 message
             })

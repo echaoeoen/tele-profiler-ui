@@ -6,7 +6,7 @@ import { useGlobalError } from "./use-error";
 const API_URL = process.env.NEXT_PUBLIC_API_URL || '/bot1';
 export const useRequest = () => {
     const [loading, setLoading] = useState(false);
-    const { value: token} = useToken()
+    const { value: token } = useToken()
     const route = useRouter()
     const { setError } = useGlobalError()
     const client = axios.create({

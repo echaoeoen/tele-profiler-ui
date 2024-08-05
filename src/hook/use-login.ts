@@ -16,7 +16,7 @@ export const useLogin = () => {
     const login = useCallback(() => {
         if(loading) return;
         setError('')
-        return client.post('/login', {
+        return client.post('/bot1/login', {
             username,
             password
         }).then((response) => {

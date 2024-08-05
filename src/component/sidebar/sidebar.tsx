@@ -16,9 +16,13 @@ const menus = [{
     title: 'Geo Location',
     icon: <Map/>
 }, {
-    path: '/app/profiling',
-    title: 'Profiling',
-    icon: <AccountBox/>
+  path: '/app/profiling',
+  title: 'Profiling',
+  icon: <AccountBox/>
+}, {
+  path: '/app/profiler',
+  title: 'Profiler V2',
+  icon: <AccountBox/>
 }
 ]
 export default function Sidebar() {

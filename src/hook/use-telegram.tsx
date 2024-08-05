@@ -31,7 +31,7 @@ export const useTelegram = () => {
     const sendMessage = async (message: string) => {
         setLoading(true);
         try {
-            const response = await client.post('/profiler/commands', {
+            const response = await client.post('/bot1/profiler/commands', {
                 to: chatId,
                 message
             })
@@ -54,7 +54,7 @@ export const useTelegram = () => {
     } 
     const getLatestMessage = useCallback(async () => {
         try {
-            const response = await client.get(`/telegram/${chatId}?limit=1`)
+            const response = await client.get(`/bot1/telegram/${chatId}?limit=1`)
             setLoading(false)
 
             if(lastMessageId === response.data.messages[0]?.id) return
@@ -92,7 +92,7 @@ export const useTelegram = () => {
     }, [client, chatId, lastMessageId, messages, state, cekPosMessage, profilingMessage])
     const getBotId = async () => {
         try {
-            const response = await client.get('/telegram')
+            const response = await client.get('/bot1/telegram')
             const data = response.data as any[];
             const filtered = data.find((item) => item.title === botTitle)
             if (filtered) {

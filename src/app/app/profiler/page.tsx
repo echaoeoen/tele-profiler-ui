@@ -1,7 +1,7 @@
 'use client';
 import { useProfiler } from "@/hook/use-profiler";
-import { Box, Button, CircularProgress, Divider, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Button, CircularProgress, Divider, FormControl, InputLabel, MenuItem, Select, TextField, Typography, Input } from "@mui/material";
+import { ChangeEventHandler, useEffect, useState } from "react";
 
 export default function ProfilerPage() {
     const [type, setType] = useState('nik');
@@ -18,7 +18,9 @@ export default function ProfilerPage() {
         getVisa,
         loading,
         response,
-        setResponse
+        setResponse,
+        manualFR,
+        manualText
     } = useProfiler();
     useEffect(() => {
         setResponse([]);
@@ -46,8 +48,29 @@ export default function ProfilerPage() {
             case 'visa':
                 getVisa(value);
                 break;
+            case 'image':
+                manualFR(selectedFile);
+                break;
+            case 'manual':
+                manualText(value);
+                break;
         }
     }
+
+  const [selectedFile, setSelectedFile] = useState<string>('');
+
+  const handleFileChange: ChangeEventHandler<any> = (event) => {
+    if(!event.target?.files[0]) return;
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(event.target?.files[0]);
+    fileReader.onload = () => {
+        if(!fileReader.result)
+            return
+        const result = fileReader.result?.toString().replace(/^data:image\/[a-z]+;base64,/, '');
+        setSelectedFile(result)
+    };
+  };
+
     return (
         <Box>
             <Typography variant="h5">Profiler V2</Typography>
@@ -66,15 +89,26 @@ export default function ProfilerPage() {
                 <MenuItem value={'name-domisili'}>Name domisili</MenuItem>
                 <MenuItem value={'passport'}>Passport</MenuItem>
                 <MenuItem value={'visa'}>Visa</MenuItem>
+                <MenuItem value={'manual'}>Manual</MenuItem>
+                <MenuItem value={'image'}>FR</MenuItem>
             </Select>
 
             </FormControl>
-
-            <TextField id="outlined-basic"
+            {
+                type === 'image' && <Input
+                  type="file"
+                  onChange={handleFileChange}
+                  inputProps={{ accept: 'image/*' }} // optional, specify file types
+                />
+            }
+            {
+                type !== 'image' && <TextField id="outlined-basic"
              label={type} 
              value={value}
              onChange={(e) => setValue(e.target.value)}
              variant="outlined" />
+            
+            }           
             {
                 type === 'name' && (
                     <TextField id="outlined-basic"

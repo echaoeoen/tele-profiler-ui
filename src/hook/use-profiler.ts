@@ -5,7 +5,7 @@ import { useGlobalError } from './use-error';
 import { useLocalStorage } from './use-local-storage';
 export interface ProfilerResponse {
     message: string;
-    image: string;
+    image?: string;
 }
 export const useProfiler = () => {
     const {
@@ -16,7 +16,10 @@ export const useProfiler = () => {
     const { setError } = useGlobalError()
     const req = (path: string, data: any) => {
         client.post(path, data).then((response) => {
-            setResponse(response.data.response)
+            if(typeof response.data.response === 'string')
+                setResponse([{message: response.data.response}])
+            else if(Array.isArray(response.data.response))
+                setResponse(response.data.response)
         }).catch(err => setError(err.response?.data?.message || err.message))
     } 
     const getNik = (nik: string) => {
@@ -43,6 +46,12 @@ export const useProfiler = () => {
     const getVisa = (visa: string) => {
         return req('/bot2/v2/profiler/visa', { visa })
     }
+    const manualText = (text: string) => {
+        return req('/bot2/v2/profiler/manual', { text })
+    }
+    const manualFR = (image: string) => {
+        return req('/bot2/v2/profiler/manual-image', { image })
+    }
 
     return {
         response,
@@ -55,5 +64,7 @@ export const useProfiler = () => {
         getBpjs,
         getPassport,
         getVisa,
+        manualFR,
+        manualText
     }
 }
